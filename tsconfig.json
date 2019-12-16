@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "target": "es6",
+      "noImplicitAny": true,
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "outDir": "dist",
+      "baseUrl": "./src",
+      "paths": {
+          "*": [
+              "node_modules/*"
+          ]
+      }
+    },
+    "rules": {
+      "no-require-imports": false,
+      "quotemark": [
+        true, "single", "avoid-escape"
+      ],
+        "ordered-imports": false,
+        "object-literal-sort-keys": false
+    },
+    "types": [
+      "@types/request",
+      "@types/express"
+    ],
+    "include": [
+      "src/**/*"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+}

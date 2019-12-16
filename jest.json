@@ -1,0 +1,29 @@
+{
+  "verbose": true,
+  "collectCoverage": true,
+  "setupFiles": [
+    "reflect-metadata"
+  ],
+  "collectCoverageFrom": [
+    "src/**/*.ts"
+  ],
+  "coverageReporters": [],
+  "transform": {
+    "^.+\\.ts$": "ts-jest"
+  },
+  "reporters": [
+    "default",
+    "jest-junit"
+  ],
+  "testRegex": "/src/.+\\.test.ts$",
+  "moduleFileExtensions": [
+    "ts",
+    "js",
+    "json",
+    "node"
+  ],
+  "moduleNameMapper": {
+    "personalization": "<rootDir>/mocks/personalizationMock.js"
+  },
+  "testEnvironment": "node"
+}
