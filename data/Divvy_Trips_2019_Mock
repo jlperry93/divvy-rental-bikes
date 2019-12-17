@@ -1,14 +1,14 @@
 01 - Rental Details Rental ID,01 - Rental Details Local Start Time,01 - Rental Details Local End Time,01 - Rental Details Bike ID,01 - Rental Details Duration In Seconds Uncapped,03 - Rental Start Station ID,03 - Rental Start Station Name,02 - Rental End Station ID,02 - Rental End Station Name,User Type,Member Gender,05 - Member Details Member Birthday Year
 22178529,2019-04-01 00:02:22,2019-04-01 00:09:48,6251,446.0,81,Daley Center Plaza,56,Desplaines St & Kinzie St,Subscriber,Male,1975
 22178530,2019-04-01 00:03:02,2019-04-01 00:20:30,6226,"1,048.0",317,Wood St & Taylor St,59,Wabash Ave & Roosevelt Rd,Subscriber,Female,1984
-22178531,2019-04-01 00:11:07,2019-04-01 00:15:19,5649,252.0,283,LaSalle St & Jackson Blvd,174,Canal St & Madison St,Subscriber,Male,1990
+22178531,2019-04-01 00:11:07,2019-04-01 00:15:19,5649,252.0,81,LaSalle St & Jackson Blvd,56,Canal St & Madison St,Subscriber,Male,1990
 22178532,2019-04-01 00:13:01,2019-04-01 00:18:58,4151,357.0,26,McClurg Ct & Illinois St,133,Kingsbury St & Kinzie St,Subscriber,Male,1993
 22178533,2019-04-01 00:19:26,2019-04-01 00:36:13,3270,"1,007.0",202,Halsted St & 18th St,129,Blue Island Ave & 18th St,Subscriber,Male,1992
 22178534,2019-04-01 00:19:39,2019-04-01 00:23:56,3123,257.0,420,Ellis Ave & 55th St,426,Ellis Ave & 60th St,Subscriber,Male,1999
 22178535,2019-04-01 00:26:33,2019-04-01 00:35:41,6418,548.0,503,Drake Ave & Fullerton Ave,500,Central Park Ave & Elbridge Ave,Subscriber,Male,1969
-22178536,2019-04-01 00:29:48,2019-04-01 00:36:11,4513,383.0,260,Kedzie Ave & Milwaukee Ave,499,Kosciuszko Park,Subscriber,Male,1991
-22178537,2019-04-01 00:32:07,2019-04-01 01:07:44,3280,"2,137.0",211,St. Clair St & Erie St,211,St. Clair St & Erie St,Customer,,
-22178538,2019-04-01 00:32:19,2019-04-01 01:07:39,5534,"2,120.0",211,St. Clair St & Erie St,211,St. Clair St & Erie St,Customer,,
+22178536,2019-04-01 00:29:48,2019-04-01 00:36:11,4513,383.0,260,Kedzie Ave & Milwaukee Ave,56,Kosciuszko Park,Subscriber,Male,1991
+22178537,2019-04-01 00:32:07,2019-04-01 01:07:44,3280,"2,137.0",211,St. Clair St & Erie St,56,St. Clair St & Erie St,Customer,,
+22178538,2019-04-01 00:32:19,2019-04-01 01:07:39,5534,"2,120.0",211,St. Clair St & Erie St,56,St. Clair St & Erie St,Customer,,
 22178539,2019-04-01 00:36:20,2019-04-01 00:41:17,4666,297.0,304,Broadway & Waveland Ave,232,Pine Grove Ave & Waveland Ave,Subscriber,Male,1975
 22178540,2019-04-01 00:58:38,2019-04-01 01:04:43,3735,365.0,37,Dearborn St & Adams St,337,Clark St & Chicago Ave,Subscriber,Male,1991
 22178541,2019-04-01 01:09:41,2019-04-01 01:12:26,6108,165.0,75,Canal St & Jackson Blvd,36,Franklin St & Jackson Blvd,Subscriber,Male,1990
@@ -22,7 +22,7 @@
 22178549,2019-04-01 02:27:02,2019-04-01 02:30:10,93,188.0,257,Lincoln Ave & Waveland Ave,230,Lincoln Ave & Roscoe St,Subscriber,Male,1981
 22178550,2019-04-01 02:37:48,2019-04-01 02:41:35,3325,227.0,427,Cottage Grove Ave & 63rd St,430,MLK Jr Dr & 63rd St,Subscriber,Male,1985
 22178551,2019-04-01 02:42:51,2019-04-01 02:48:26,3193,335.0,172,Rush St & Cedar St,635,Fairbanks St & Superior St (*),Subscriber,Male,1992
-22178552,2019-04-01 02:58:12,2019-04-01 03:09:14,1167,662.0,304,Broadway & Waveland Ave,246,Ashland Ave & Belle Plaine Ave,Subscriber,Female,1959
+22178552,2019-04-01 02:58:12,2019-04-01 03:09:14,1167,662.0,81,Broadway & Waveland Ave,246,Ashland Ave & Belle Plaine Ave,Subscriber,Female,1959
 22178554,2019-04-01 02:59:22,2019-04-01 03:09:14,6418,592.0,500,Central Park Ave & Elbridge Ave,503,Drake Ave & Fullerton Ave,Subscriber,Male,1969
 22178555,2019-04-01 03:01:13,2019-04-01 03:04:39,1627,206.0,90,Millennium Park,44,State St & Randolph St,Subscriber,Female,1992
 22178556,2019-04-01 03:15:06,2019-04-01 03:20:10,6065,304.0,299,Halsted St & Roscoe St,334,Lake Shore Dr & Belmont Ave,Subscriber,Male,1989
@@ -30,19 +30,19 @@
 22178558,2019-04-01 03:46:46,2019-04-01 04:17:05,1065,"1,819.0",19,Loomis St & Taylor St (*),31,Franklin St & Chicago Ave,Subscriber,Male,1997
 22178559,2019-04-01 04:01:10,2019-04-01 04:12:50,268,700.0,260,Kedzie Ave & Milwaukee Ave,485,Sawyer Ave & Irving Park Rd,Customer,Male,1975
 22178560,2019-04-01 04:07:03,2019-04-01 04:13:59,6223,416.0,156,Clark St & Wellington Ave,229,Southport Ave & Roscoe St,Subscriber,Male,1986
-22178561,2019-04-01 04:11:03,2019-04-01 04:19:51,3737,528.0,91,Clinton St & Washington Blvd,241,Morgan St & Polk St,Subscriber,Male,1987
+22178561,2019-04-01 04:11:03,2019-04-01 04:19:51,3737,528.0,91,Clinton St & Washington Blvd,56,Morgan St & Polk St,Subscriber,Male,1987
 22178562,2019-04-01 04:11:47,2019-04-01 04:14:15,9,148.0,49,Dearborn St & Monroe St,283,LaSalle St & Jackson Blvd,Subscriber,Male,1957
 22178563,2019-04-01 04:14:26,2019-04-01 04:28:32,6046,846.0,295,Broadway & Argyle St,300,Broadway & Barry Ave,Subscriber,Male,1985
-22178564,2019-04-01 04:18:22,2019-04-01 04:23:35,2772,313.0,210,Ashland Ave & Division St,69,Damen Ave & Pierce Ave,Subscriber,Male,1981
+22178564,2019-04-01 04:18:22,2019-04-01 04:23:35,2772,313.0,81,Ashland Ave & Division St,69,Damen Ave & Pierce Ave,Subscriber,Male,1981
 22178565,2019-04-01 04:26:14,2019-04-01 04:36:59,192,645.0,191,Canal St & Monroe St (*),59,Wabash Ave & Roosevelt Rd,Subscriber,Male,1994
 22178566,2019-04-01 04:31:15,2019-04-01 04:48:58,391,"1,063.0",60,Dayton St & North Ave,315,Elston Ave & Wabansia Ave,Subscriber,Male,1964
 22178567,2019-04-01 04:32:27,2019-04-01 04:47:52,3038,925.0,61,Wood St & Milwaukee Ave,290,Kedzie Ave & Palmer Ct,Subscriber,Male,1983
 22178568,2019-04-01 04:39:31,2019-04-01 04:44:41,6123,310.0,7,Field Blvd & South Water St,211,St. Clair St & Erie St,Subscriber,Male,1987
 22178569,2019-04-01 04:41:29,2019-04-01 04:49:47,3920,498.0,660,Sheridan Rd & Columbia Ave,515,Paulina St & Howard St,Subscriber,Female,1981
 22178570,2019-04-01 04:44:55,2019-04-01 05:01:48,5962,"1,013.0",176,Clark St & Elm St,59,Wabash Ave & Roosevelt Rd,Subscriber,Female,1977
-22178571,2019-04-01 04:45:34,2019-04-01 04:50:37,221,303.0,196,Cityfront Plaza Dr & Pioneer Ct,90,Millennium Park,Subscriber,Male,1989
-22178572,2019-04-01 04:45:59,2019-04-01 04:51:58,4024,359.0,343,Racine Ave & Wrightwood Ave,127,Lincoln Ave & Fullerton Ave,Subscriber,Male,1991
-22178573,2019-04-01 04:53:30,2019-04-01 04:59:44,3248,374.0,96,Desplaines St & Randolph St,283,LaSalle St & Jackson Blvd,Subscriber,Male,1980
+22178571,2019-04-01 04:45:34,2019-04-01 04:50:37,221,303.0,196,Cityfront Plaza Dr & Pioneer Ct,56,Millennium Park,Subscriber,Male,1989
+22178572,2019-04-01 04:45:59,2019-04-01 04:51:58,4024,359.0,343,Racine Ave & Wrightwood Ave,56,Lincoln Ave & Fullerton Ave,Subscriber,Male,1991
+22178573,2019-04-01 04:53:30,2019-04-01 04:59:44,3248,374.0,96,Desplaines St & Randolph St,56,LaSalle St & Jackson Blvd,Subscriber,Male,1980
 22178574,2019-04-01 04:56:19,2019-04-01 04:58:28,221,129.0,90,Millennium Park,52,Michigan Ave & Lake St,Subscriber,Male,1992
 22178575,2019-04-01 04:58:20,2019-04-01 05:03:23,4067,303.0,493,Western Ave & Roscoe St,230,Lincoln Ave & Roscoe St,Subscriber,Female,1994
 22178576,2019-04-01 05:01:08,2019-04-01 05:37:48,4862,"2,200.0",506,Spaulding Ave & Armitage Ave,283,LaSalle St & Jackson Blvd,Subscriber,Male,1962

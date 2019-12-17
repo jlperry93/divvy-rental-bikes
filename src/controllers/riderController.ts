@@ -1,38 +1,52 @@
 import * as express from "express";
 import { Request, Response } from "express";
-import IControllerBase from "../models/controllerBase";
+import MiddleWare from "../middleware/middleware";
 import { IAgeGroups, IRidersAgeResponse, RIDER_AGE_GROUPS, RidersAgeResponse } from "../models/rider";
-import { TRIP_DEATILS } from "./../models/trip";
-import { TripsService } from "./../services/tripsService";
+import { GeneralUtils } from "../utils/generalUtils";
+import { ITrip, TRIP_DEATILS } from "./../models/trip";
+import TripsService from "./../services/tripsService";
 
 // Given one or more stations, return the number of riders in the following age groups,
 // [0-20,21-30,31-40,41-50,51+, unknown], who ended their trip at that station for a given
 // day.
-export class RiderController implements IControllerBase {
+export default class RiderController {
   public router = express.Router();
   private tripsService: TripsService;
+  private middleware: MiddleWare;
 
   constructor() {
-    this.initRoutes();
     this.tripsService = new TripsService();
+    this.middleware = new MiddleWare();
+    this.initRoutes();
   }
 
   public initRoutes(): any {
-    this.router.get("/", this.index);
-    this.router.get("/:id", this.index);
-    this.router.get("/:id/:date", this.index);
+    this.router.get("/", this.middleware.authHandler, this.middleware.idHandler, this.index);
+    this.router.get(
+      "/:id",
+      this.middleware.authHandler,
+      this.middleware.idHandler,
+      this.middleware.dateHandler,
+      this.index
+    );
+    this.router.get(
+      "/:id/:date",
+      this.middleware.authHandler,
+      this.middleware.idHandler,
+      this.middleware.dateHandler,
+      this.middleware.cacheHandler,
+      this.index
+    );
   }
 
   private index = async (req: Request, res: Response) => {
-    if (!req.params.id) {
-       res.status(500).send({ message: "Invalid Request: Include station ID(s)"});
-    } else if (!req.params.date) {
-      res.status(500).send({ message: "Invalid Request: Include date"});
-    } else {
-      const stationIDs = req.params.id.split(",");
-      const date = this.getDate(req.params.date);
+    const stationIDs = req.params.id.split(",");
+    const date = GeneralUtils.getDate(req.params.date);
+    try {
       const stations = await this.getRidersAgeRange(stationIDs, date);
       res.send({ stations });
+    } catch (error) {
+      res.status(500).send({ message: `Internal Server Erorr: ${error}` });
     }
   }
 
@@ -40,22 +54,17 @@ export class RiderController implements IControllerBase {
     const tripDetails = await this.tripsService.getTrips();
     if (tripDetails) {
       const selectedTrips: IRidersAgeResponse[] = [];
+
+      // loop through the array of ids
       ids.forEach((id: string) => {
-        const selectedStationTrips: any[] = [];
-        tripDetails.forEach((trip: any) => {
-          const tripEndDate = this.getDate(trip[TRIP_DEATILS.LOCAL_END_TIME]);
-          if (id === trip[TRIP_DEATILS.END_STATION_ID] && endDate === tripEndDate) {
-            selectedStationTrips.push(trip);
-          }
-        });
-        const ageResponse = this.processBirthYear(id, selectedStationTrips);
-        selectedTrips.push(ageResponse);
+        const agesGroups = this.processTripsList(id, endDate, tripDetails);
+        selectedTrips.push(agesGroups);
       });
       return selectedTrips;
     }
   }
 
-  private processBirthYear(station: string, trips: any[]): IRidersAgeResponse {
+  private processTripsList(station: string, endDate: string, trips: ITrip[]): IRidersAgeResponse {
     // tslint:disable-next-line:prefer-const
     const ages: IAgeGroups = {
       [RIDER_AGE_GROUPS.UNDER21]: 0,
@@ -66,33 +75,28 @@ export class RiderController implements IControllerBase {
       [RIDER_AGE_GROUPS.UNKONWN]: 0
     };
     const groupAgeList = new RidersAgeResponse(station, ages);
-
     const currentYear = new Date().getFullYear();
+
+    // loop through the array of trips to determine valid trip and update age group
     trips.forEach((trip: any) => {
-      const approxAge = currentYear - trip[TRIP_DEATILS.MEMBER_BIRTH_YEAR];
-      if (approxAge < 21) {
-        groupAgeList.ages[RIDER_AGE_GROUPS.UNDER21]++;
-      } else if (approxAge > 20 || approxAge < 30) {
-        groupAgeList.ages[RIDER_AGE_GROUPS.FROM21TO30]++;
-      } else if (approxAge > 30 || approxAge < 40) {
-        groupAgeList.ages[RIDER_AGE_GROUPS.FROM31TO40]++;
-      } else if (approxAge > 40 || approxAge < 50) {
-        groupAgeList.ages[RIDER_AGE_GROUPS.FROM41TO50]++;
-      } else if (approxAge > 50) {
-        groupAgeList.ages[RIDER_AGE_GROUPS.OVER50]++;
-      } else {
-        groupAgeList.ages[RIDER_AGE_GROUPS.UNKONWN]++;
+      const tripEndDate = GeneralUtils.getDate(trip[TRIP_DEATILS.LOCAL_END_TIME]);
+      if (station === trip[TRIP_DEATILS.END_STATION_ID] && endDate === tripEndDate) {
+        const approxAge = currentYear - trip[TRIP_DEATILS.MEMBER_BIRTH_YEAR];
+        if (approxAge < 21) {
+          groupAgeList.ages[RIDER_AGE_GROUPS.UNDER21]++;
+        } else if (approxAge > 20 || approxAge < 30) {
+          groupAgeList.ages[RIDER_AGE_GROUPS.FROM21TO30]++;
+        } else if (approxAge > 30 || approxAge < 40) {
+          groupAgeList.ages[RIDER_AGE_GROUPS.FROM31TO40]++;
+        } else if (approxAge > 40 || approxAge < 50) {
+          groupAgeList.ages[RIDER_AGE_GROUPS.FROM41TO50]++;
+        } else if (approxAge > 50) {
+          groupAgeList.ages[RIDER_AGE_GROUPS.OVER50]++;
+        } else {
+          groupAgeList.ages[RIDER_AGE_GROUPS.UNKONWN]++;
+        }
       }
     });
     return groupAgeList;
-  }
-
-  private getDate(date: string): string {
-    const partialDate = date.split("-");
-    const year = partialDate[0];
-    const month = partialDate[1];
-    const day = new Date(date).getDay();
-    const fullDate = `${year}-${month}-${day}`;
-    return fullDate;
   }
 }

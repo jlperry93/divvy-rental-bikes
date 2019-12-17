@@ -1,10 +1,3 @@
-// Rider - the person renting the bike
-export interface IRider {
-  memberType: string;
-  gender: string;
-  birthYear: number;
-}
-
 export enum RIDER_AGE_GROUPS {
   UNDER21 = "0-20",
   FROM21TO30 = "21-31",

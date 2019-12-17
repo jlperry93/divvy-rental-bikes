@@ -1,0 +1,19 @@
+{
+  "verbose": true,
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "src/services/stationService.test.ts"
+  ],
+  "preset": "ts-jest",
+  "reporters": [
+    "default"
+  ],
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "json",
+    "node"
+  ],
+  "testEnvironment": "node"
+}

@@ -1,32 +1,34 @@
 import bodyParser from "body-parser";
 import express from "express";
-const app = express();
-const port = 8080;
-
 // controllers
-import { RiderController } from "./controllers/riderController";
+import RiderController from "./controllers/riderController";
 import StationController from "./controllers/stationController";
-import { TripController } from "./controllers/tripController";
+import TripController from "./controllers/tripController";
 
-app.use(bodyParser.json());
+export default class Server {
 
-// GET information for given stations
-const stationController = new StationController();
-app.use("/stations", stationController.router);
+  public app = express();
+  public riderController = new RiderController();
+  public stationController = new StationController();
+  public tripController = new TripController();
 
-// GET age ranges for given station(s) on given day
-const riderController = new RiderController();
-app.use("/riders", riderController.router);
+  constructor() {
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+  }
 
-// GET request recent trips for given station(s)
-const tripController = new TripController();
-app.use("/recentTrip", tripController.router);
+  // tslint:disable-next-line:no-unused-expression
+  public start(port: number): void {
+    // GET age ranges for given station(s) on given day
+    this.app.use("/riders", this.riderController.router);
+    // GET information for given stations
+    this.app.use("/stations", this.stationController.router);
+    // GET request recent trips for given station(s)
+    this.app.use("/recentTrips", this.tripController.router);
 
-app.get("/", (req, res) => res.send("Welcome to Jordan's Divvy Coding Challenge"));
-
-app.use(express.static("data"));
-
-app.listen(port, () => {
-  // tslint:disable-next-line:no-console
-  console.log(`App listening on port ${port}`);
-});
+    this.app.listen(port, () => {
+      // tslint:disable-next-line:no-console
+      console.log(`App listening on port ${port}`);
+    });
+  }
+}

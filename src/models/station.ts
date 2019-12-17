@@ -16,7 +16,3 @@ export interface IStation {
 export interface IStationAPI {
   stations: IStation[];
 }
-
-// export interface IStationsResponse {
-
-// }

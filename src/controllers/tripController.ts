@@ -1,62 +1,82 @@
 import * as express from "express";
 import { Request, Response } from "express";
-import IControllerBase from "../models/controllerBase";
-import { TRIP_DEATILS } from "../models/trip";
-// import { ITrips, IRecentTrips, TRIP_DEATILS } from "../models/trip";
-import { TripsService } from "./../services/tripsService";
+import MiddleWare from "../middleware/middleware";
+import { IRecentTrips, ITrip, RecentTripsResponse, TRIP_DEATILS } from "../models/trip";
+import { GeneralUtils } from "../utils/generalUtils";
+import TripsService from "./../services/tripsService";
 
 // // Given one or more stations, return the last 20 trips that ended at each station for a single
 // // day.
-export class TripController implements IControllerBase {
+export default class TripController {
   public router = express.Router();
   private tripsService: TripsService;
+  private middleware: MiddleWare;
 
   constructor() {
-    this.initRoutes();
+    this.middleware = new MiddleWare();
     this.tripsService = new TripsService();
+    this.initRoutes();
   }
 
   public initRoutes(): any {
-    this.router.get("/", this.index);
-    this.router.get("/:id", this.index);
+    this.router.route("/recentTrips");
+    this.router.get("/", this.middleware.authHandler, this.middleware.idHandler, this.index);
+    this.router.get("/:id",
+      this.middleware.authHandler,
+      this.middleware.idHandler,
+      this.middleware.dateHandler,
+      this.index);
+    this.router.get(
+      "/:id/:date",
+      this.middleware.authHandler,
+      this.middleware.idHandler,
+      this.middleware.dateHandler,
+      this.middleware.cacheHandler,
+      this.index)
+      ;
   }
 
   private index = async (req: Request, res: Response) => {
-    if (!req.params.id) {
-       res.status(500).send({ message: "Invalid Request: Include station ID"});
-    } else if (req.params.date) {
-      res.status(500).send({ message: "Invalid Request: Include date"});
-    } else {
-      const stationIDs = req.params.id.split(",");
-      const stations = await this.getRecentTrips(stationIDs);
+    const stationIDs = req.params.id.split(",");
+    const date = GeneralUtils.getDate(req.params.date);
+    try {
+      const stations = await this.getRecentTrips(stationIDs, date);
       res.send({ stations });
+    } catch (error) {
+      res.status(500).send({ message: `Internal Server Erorr: ${error}` });
     }
   }
 
-  private async getRecentTrips(ids: string[]): Promise<void> {
+  private async getRecentTrips(ids: string[], endDate: string): Promise<IRecentTrips[]> {
     const tripDetails = await this.tripsService.getTrips();
     if (tripDetails) {
+      const recentTrips: IRecentTrips[] = [];
       ids.forEach((id: string) => {
-        const selectedStationTrips = [];
-        tripDetails.forEach((trip: any) => {
-          if (id === trip[TRIP_DEATILS.END_STATION_ID]) {
-            selectedStationTrips.push(trip);
-          }
-        });
+        const processedTrips = this.processRecentTrips(id, endDate, tripDetails);
+        recentTrips.push(processedTrips);
       });
+      return recentTrips;
     }
   }
 
-  private processRecentTrips(trips: any): any {
-    const now = new Date();
-    return now;
-    // for (let i = 0; i < trips.length; i++) {
-    // }
-    // trips.forEach(trip => {
-    //   const difference = new Date() -
-    //   if () {
+  private processRecentTrips(id: string, endDate: string, trips: ITrip[]): IRecentTrips {
+    // tslint:disable-next-line:prefer-const
+    let processedTrips: IRecentTrips = new RecentTripsResponse(id, []);
+    const selectedTrips: ITrip[] = [];
+    trips.forEach((trip: ITrip) => {
+      const tripEndDate = GeneralUtils.getDate(trip[TRIP_DEATILS.LOCAL_END_TIME]);
+      if (id === trip[TRIP_DEATILS.END_STATION_ID] && endDate === tripEndDate) {
+        selectedTrips.push(trip);
+      }
+    });
 
-    //   }
-    // });
+    // sort in descrending order
+    const sortedTrips = selectedTrips.sort((a: any, b: any) => {
+      return a[TRIP_DEATILS.LOCAL_END_TIME] - b[TRIP_DEATILS.LOCAL_END_TIME];
+    }).reverse();
+
+    // return last 20 trips
+    processedTrips.trips = sortedTrips.splice(0, 20);
+    return processedTrips;
   }
 }

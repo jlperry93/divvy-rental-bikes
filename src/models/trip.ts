@@ -1,18 +1,3 @@
-import { IRider } from "./rider";
-
-// Trip - the dates, times, station, and rider info
-export interface ITrip {
-  startTime: string;
-  endTime: string;
-  stationId: number;
-  rider: IRider;
-}
-
-export interface IRecentTrips {
-  station_id: string;
-  trips: ITrip[];
-}
-
 export enum TRIP_DEATILS {
   RENTAL_ID = "01 - Rental Details Rental ID",
   LOCAL_START_TIME = "01 - Rental Details Local Start Time",
@@ -26,4 +11,28 @@ export enum TRIP_DEATILS {
   MEMBER_TYPE = "User Type",
   MEMBER_GENDER = "Member Gender",
   MEMBER_BIRTH_YEAR = "05 - Member Details Member Birthday Year"
+}
+
+export interface ITrip {
+  [TRIP_DEATILS.RENTAL_ID]: string;
+  [TRIP_DEATILS.LOCAL_START_TIME]: string;
+  [TRIP_DEATILS.LOCAL_END_TIME]: string;
+  [TRIP_DEATILS.BIKE_ID]: string;
+  [TRIP_DEATILS.DURATION_IN_SECONDS]: string;
+  [TRIP_DEATILS.START_STATION_ID]: string;
+  [TRIP_DEATILS.START_STATION_NAME]: string;
+  [TRIP_DEATILS.END_STATION_ID]: string;
+  [TRIP_DEATILS.END_STATION_NAME]: string;
+  [TRIP_DEATILS.MEMBER_TYPE]: string;
+  [TRIP_DEATILS.MEMBER_GENDER]: string;
+  [TRIP_DEATILS.MEMBER_BIRTH_YEAR]: string;
+}
+
+export class RecentTripsResponse {
+  constructor(public stationId: string, public trips: ITrip[]) { }
+}
+
+export interface IRecentTrips {
+  stationId: string;
+  trips: ITrip[];
 }
